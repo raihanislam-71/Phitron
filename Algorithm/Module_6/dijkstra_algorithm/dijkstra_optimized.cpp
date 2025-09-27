@@ -2,7 +2,7 @@
 using namespace std;
 const int N = 100;
 vector<pair<int, int>> v[N];
-int dis[N];
+int dis[N]; // line 50 use korte cmt
 class cmp
 {
 public:
@@ -11,8 +11,9 @@ public:
         return a.second > b.second; // ai > ta olto kaj korbe > ai ta boror jonno tea hoise kinto aita soto return korbe
     }
 }; 
-void dijkstra(int src)
+void dijkstra(int src)//line 50 use korte (src, vector<int> &dis)
 {
+    // priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq; // aitar jonno cmp class dorkar hoina
     priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> pq;
     pq.push({src, 0});
     dis[src] = 0;
@@ -46,11 +47,15 @@ int main()
         v[a].push_back({b, c});
         v[b].push_back({a, c});
     }
+    // vector<int> dis(n,INT_MAX);//line number 50 
+    //OR
     for (int i = 0; i < n; i++)
     {
         dis[i] = INT_MAX;
     }
-    dijkstra(0);
+
+    dijkstra(0);//line 50 use korte (0 , dis)
+
     for (int i = 0; i < n; i++)
     {
         cout << i << "->" << dis[i] << endl;
