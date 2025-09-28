@@ -29,7 +29,9 @@ int main()
     {
         dis[i] = INT_MAX;
     }
-
+    //OR
+    // vector<int> dis(n,INT_MAX);
+    
     dis[0] = 0;
 
     for (int i = 0; i < n - 1; i++)
