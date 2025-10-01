@@ -75,11 +75,7 @@ int main()
         int leaderU = dsu_find(ed.u);
         int leaderV = dsu_find(ed.v);
 
-        if (leaderU == leaderV)
-        {
-            continue;
-        }
-        else
+        if(leaderU != leaderV)
         {
             dsu_union_by_level(ed.u, ed.v);
             totalCost += ed.w;
