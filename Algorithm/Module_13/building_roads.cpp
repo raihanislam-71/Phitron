@@ -5,7 +5,7 @@ int par[N];
 int group_size[N];
 void dsu_initialize(int n)
 {
-    for (int i = 0; i < n; i++)
+    for (int i = 1; i <= n; i++)
     {
         par[i] = -1;
         group_size[i] = 1;
@@ -36,55 +36,36 @@ void dsu_union_by_size(int node1, int node2)
         group_size[leaderB] += group_size[leaderA];
     }
 }
-
-class Edge
-{
-public:
-    int u, v, w;
-    Edge(int u, int v, int w)
-    {
-        this->u = u;
-        this->v = v;
-        this->w = w;
-    }
-};
-
-
-bool cmp(Edge a, Edge b)
-{
-    return a.w < b.w;
-}
-
 int main()
 {
-    int n, e;
-    cin >> n >> e;
-    vector<Edge> edgeList;
+    int n,e;
+    cin>>n>>e;
     dsu_initialize(n);
-    while (e--)
+    while(e--)
     {
-        int u, v, w;
-        cin >> u >> v >> w;
-        edgeList.push_back(Edge(u, v, w));
-    }
-
-    sort(edgeList.begin(), edgeList.end(), cmp);
-    int totalCost = 0;
-    for (Edge ed : edgeList)
-    {
-        int leaderU = dsu_find(ed.u);
-        int leaderV = dsu_find(ed.v);
-
-        if (leaderU == leaderV)
+        int a,b;
+        cin>>a>>b;
+        int leaderA = dsu_find(a);
+        int leaderB = dsu_find(b);
+        if(leaderA != leaderB)
         {
-            continue;
-        }
-        else
-        {
-            dsu_union_by_size(ed.u, ed.v);
-            totalCost += ed.w;
+            dsu_union_by_size(a,b);
         }
     }
-    cout << totalCost << endl;
+
+    vector<int> leader;
+    for(int i=1; i<= n; i++)
+    {
+        leader.push_back(dsu_find(i));
+    }
+    sort(leader.begin(),leader.end());
+    leader.erase(unique(leader.begin(),leader.end()),leader.end());
+
+    cout<<leader.size()-1<<endl;
+    for(int i=0; i<leader.size()-1; i++)
+    {
+        cout<<leader[i]<<" "<<leader[i+1]<<endl;;
+    }
+    
     return 0;
 }

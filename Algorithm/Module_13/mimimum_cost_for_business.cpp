@@ -3,19 +3,34 @@ using namespace std;
 const int N = 1e5;
 int par[N];
 int group_size[N];
+class Edge
+{
+    public:
+    int u,v,w;
+    Edge(int u,int v,int w)
+    {
+        this->u = u;
+        this->v = v;
+        this->w = w;
+    }
+};
+bool cmp(Edge a, Edge b)
+{
+    return a.w < b.w;
+}
+
 void dsu_initialize(int n)
 {
-    for (int i = 0; i < n; i++)
+    for(int i=0; i<n; i++)
     {
         par[i] = -1;
-        group_size[i] = 1;
+        group_size[i] = 0;
     }
 }
 
 int dsu_find(int node)
 {
-    if (par[node] == -1)
-        return node;
+    if(par[node] == -1) return node;
     int leader = dsu_find(par[node]);
     par[node] = leader;
     return leader;
@@ -36,55 +51,34 @@ void dsu_union_by_size(int node1, int node2)
         group_size[leaderB] += group_size[leaderA];
     }
 }
-
-class Edge
-{
-public:
-    int u, v, w;
-    Edge(int u, int v, int w)
-    {
-        this->u = u;
-        this->v = v;
-        this->w = w;
-    }
-};
-
-
-bool cmp(Edge a, Edge b)
-{
-    return a.w < b.w;
-}
-
 int main()
 {
-    int n, e;
-    cin >> n >> e;
+    int n , e;
+    cin >> n>>e;
     vector<Edge> edgeList;
     dsu_initialize(n);
-    while (e--)
+    while(e--)
     {
-        int u, v, w;
-        cin >> u >> v >> w;
-        edgeList.push_back(Edge(u, v, w));
+        int u,v,w;
+        cin>>u>>v>>w;
+        edgeList.push_back(Edge(u,v,w));
     }
 
-    sort(edgeList.begin(), edgeList.end(), cmp);
+    sort(edgeList.begin(),edgeList.end(),cmp);
     int totalCost = 0;
-    for (Edge ed : edgeList)
-    {
-        int leaderU = dsu_find(ed.u);
-        int leaderV = dsu_find(ed.v);
 
-        if (leaderU == leaderV)
+    for(Edge ed : edgeList)
+    {
+        int a = dsu_find(ed.u);
+        int b = dsu_find(ed.v);
+
+        if(a != b)
         {
-            continue;
-        }
-        else
-        {
-            dsu_union_by_size(ed.u, ed.v);
+            dsu_union_by_size(ed.u , ed.v);
             totalCost += ed.w;
         }
     }
-    cout << totalCost << endl;
+
+    cout<<totalCost<<endl;
     return 0;
 }
